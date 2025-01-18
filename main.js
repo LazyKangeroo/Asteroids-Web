@@ -19,10 +19,6 @@ class Player {
         ctx.rotate(this.rotation)
         ctx.translate(-this.pos.x, -this.pos.y)
 
-        // ctx.arc(this.pos,this.pos,5,0,Math.PI * 2, false)
-        // ctx.fillStyle = 'red'
-        // ctx.fill()
-
         ctx.beginPath()
         ctx.moveTo(this.pos.x + 30, this.pos.y)
         ctx.lineTo(this.pos.x - 15, this.pos.y - 15)
@@ -32,6 +28,28 @@ class Player {
         ctx.stroke()
 
         ctx.restore()
+    }
+
+    update() {
+        this.draw()
+        this.pos.x += this.vel.x
+        this.pos.y += this.vel.y
+    }
+}
+
+class Projectiles {
+    constructor({ pos,vel }) {
+        this.pos = pos
+        this.vel = vel
+        this.r = 5
+    }
+
+    draw() {
+        ctx.beginPath()
+        ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fillStyle = 'white'
+        ctx.fill()
     }
 
     update() {
@@ -55,6 +73,9 @@ const keys = {
     },
     a : {
         pressed : false
+    },
+    space : {
+        pressed : false
     }
 }
 
@@ -68,6 +89,18 @@ window.addEventListener('keydown', (event) => {
             break
         case 'KeyD':
             keys.d.pressed = true;
+            break
+        case 'Space':
+            projectiles.push(new Projectiles({
+                pos : {
+                    x : player.pos.x + Math.cos(player.rotation) * 30 ,
+                    y: player.pos.y + Math.sin(player.rotation) * 30
+                }, vel : {
+                    x : Math.cos(player.rotation) * PROJECTILE_SPEED,
+                    y : Math.sin(player.rotation) * PROJECTILE_SPEED
+                }
+            }))
+            console.log(projectiles)
             break
     }
 })
@@ -90,12 +123,24 @@ const FRICTION = 0.97
 const SPEED = 3
 const ROTATION = 0.05
 
+const projectiles = []
+const PROJECTILE_SPEED = 8
+
 function animate() {
     window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
     ctx.fillRect(0,0,canvas.width,canvas.height)
+
     player.update();
 
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+        const projectile = projectiles[i]
+        projectile.update()
+
+        if (projectile.pos.x + projectile.r < 0 || projectile.pos.x > canvas.width || projectile.pos.y + projectile.r < 0 || projectile.pos.y > canvas.height) {
+            projectiles.splice(i,1)
+        }
+    }
     if (keys.w.pressed) {
         player.vel.x = Math.cos(player.rotation) * SPEED
         player.vel.y = Math.sin(player.rotation) * SPEED
