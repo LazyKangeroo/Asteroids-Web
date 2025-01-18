@@ -54,7 +54,7 @@ class Player {
             y: this.pos.y + sin * -15 + cos * -15,
           },
         ]
-      }
+    }
 }
 
 class Asteroids {
@@ -62,22 +62,6 @@ class Asteroids {
         this.pos = pos
         this.vel = vel
         this.r = r
-
-        this.points = {
-            combos : {
-                sniper : 120, // shooting small ones
-                rapit : 80, // destroying large ones within 300mm
-                close_calls : {
-                    dodge : 150,
-                    last_minute : 200
-                }
-            },
-            damage : {
-                small : 20,
-                meduim : 40,
-                large : 60
-            }
-        }
     }
 
     draw() {
@@ -92,10 +76,6 @@ class Asteroids {
         this.draw()
         this.pos.x += this.vel.x
         this.pos.y += this.vel.y
-    }
-
-    scoreCal(asteroid, projectile) {
-
     }
 }
 
@@ -238,7 +218,7 @@ const intervalId = window.setInterval(() => {
         r,
       })
     )
-  }, Math.floor(Math.random() * (1500 - 200) + 200 ))
+  }, Math.floor(Math.random() * (800) + 200 ))
 
 
 function animate() {
@@ -269,16 +249,21 @@ function animate() {
 
         if (circleTriangleCollision(asteroid, player.getVertices())) {
             console.log('GAME OVER')
+            console.log(`Score ${player.score}`)
             window.cancelAnimationFrame(animationId)
             clearInterval(intervalId)
+            window.alert(`GAME OVER \n Score : ${player.score}`)
           }
 
         // Collition
         for (let j = projectiles.length - 1; j >= 0; j--) {
             const projectile = projectiles[j]
             if (circleCollition(asteroid, projectile)) {
-                console.log('Hit');
                 projectiles.splice(j,1)
+
+                // Points
+                player.score += 10
+
                 // Sizing asteroid
                 if (asteroid.r <= 20) asteroids.splice(i,1)
                     else if (asteroid.r >= 20) { asteroid.r = asteroid.r / 2 }
