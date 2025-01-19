@@ -21,7 +21,7 @@ class Asteroids {
 }
 
 /* Asteroid Spawning over random range interval */
-const intervalId = window.setInterval(() => {
+const intervalId_Ast = window.setInterval(() => {
     const index = Math.floor(Math.random() * 4)
     let x, y, vx, vy
     const r = 50 * Math.random() + 15

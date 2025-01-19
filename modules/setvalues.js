@@ -8,3 +8,5 @@ const PROJECTILE_SPEED = 8
 const asteroids = []
 const AST_MX_SPEED = 5
 const AST_MIN_SPEED = 1
+
+const shields = []

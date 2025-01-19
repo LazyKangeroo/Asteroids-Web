@@ -10,13 +10,23 @@ const player = new Player({
     pos : {x : canvas.width / 2, y : canvas.height / 2}
 })
 
-
 function animate() {
     const animationId = window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
     ctx.fillRect(0,0,canvas.width,canvas.height)
 
     player.update();
+
+    // powerup management //
+        // Shield
+    if (shields.length > 0) {
+        shields[0].update()
+        if (!shields[0].active) {
+            if (circleTriangleCollision(shields[0], player.getVertices())) {
+                shields[0].active = true
+            }
+        }
+    }
 
     // Projectile management
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -41,7 +51,8 @@ function animate() {
             console.log('GAME OVER')
             console.log(`Score ${player.score}`)
             window.cancelAnimationFrame(animationId)
-            clearInterval(intervalId)
+            clearInterval(intervalId_Ast)
+            clearInterval(intervalId_Shield)
             window.alert(`GAME OVER \n Score : ${player.score}`)
           }
 
