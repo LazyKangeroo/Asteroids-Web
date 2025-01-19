@@ -47,16 +47,24 @@ function animate() {
             asteroids.splice(i,1)
         }
 
+        // COllition of ast and player
         if (circleTriangleCollision(asteroid, player.getVertices())) {
-            console.log('GAME OVER')
-            console.log(`Score ${player.score}`)
-            window.cancelAnimationFrame(animationId)
-            clearInterval(intervalId_Ast)
-            clearInterval(intervalId_Shield)
-            window.alert(`GAME OVER \n Score : ${player.score}`)
-          }
+            if (shields.length > 0 && shields[0].active) {
+                // if shield is equipt then ast is destoryed
+                player.score += 10
+                shields.splice(0,1)
+                asteroids.splice(i,1)
+            } else {
+                console.log('GAME OVER')
+                console.log(`Score ${player.score}`)
+                window.cancelAnimationFrame(animationId)
+                clearInterval(intervalId_Ast)
+                clearInterval(intervalId_Shield)
+                window.alert(`GAME OVER \n Score : ${player.score}`)
+            }
+        }
 
-        // Collition
+        // Collition of ast and projectile
         for (let j = projectiles.length - 1; j >= 0; j--) {
             const projectile = projectiles[j]
             if (circleCollition(asteroid, projectile)) {
