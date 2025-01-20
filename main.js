@@ -27,6 +27,15 @@ function animate() {
             }
         }
     }
+        // Fast projectiles
+    if (fast_projectiles.length > 0) {
+        fast_projectiles[0].update()
+        if (!fast_projectiles[0].active) {
+            if (circleTriangleCollision(fast_projectiles[0], player.getVertices())) {
+                fast_projectiles[0].active = true
+            }
+        }
+    }
 
     // Projectile management
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -68,14 +77,12 @@ function animate() {
         for (let j = projectiles.length - 1; j >= 0; j--) {
             const projectile = projectiles[j]
             if (circleCollition(asteroid, projectile)) {
-                projectiles.splice(j,1)
-
-                // Points
-                player.score += 10
-
-                // Sizing asteroid
-                if (asteroid.r <= 20) asteroids.splice(i,1)
-                    else if (asteroid.r >= 20) { asteroid.r = asteroid.r / 2 }
+                ast_proj_handling(asteroid,asteroids,projectiles,i,j)
+            }
+        }
+        if (fast_projectiles.length > 0) {
+            if (circleCollition(asteroid, fast_projectiles[0])) {
+                ast_proj_handling(asteroid,asteroids,fast_projectiles,i,0)
             }
         }
     }

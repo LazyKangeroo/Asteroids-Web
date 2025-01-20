@@ -10,3 +10,4 @@ const AST_MX_SPEED = 5
 const AST_MIN_SPEED = 1
 
 const shields = []
+const fast_projectiles = []

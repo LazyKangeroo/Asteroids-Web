@@ -49,9 +49,19 @@ function circleCollition(circle1,circle2) {
     const yDistance = circle1.pos.y - circle2.pos.y
 
     const Distance = Math.sqrt(xDistance ** 2 + yDistance ** 2)
-
     if (Distance < circle1.r + circle2.r) {
         return true
     }
     return false
+}
+
+function ast_proj_handling(asteroid,asteroid_list,projectile_list, i,j) {
+  projectile_list.splice(j,1)
+
+  // Points
+  player.score += 10
+
+  // Sizing asteroid
+  if (asteroid.r <= 20) asteroid_list.splice(i,1)
+      else if (asteroid.r >= 20) { asteroid.r = asteroid.r / 2 }
 }

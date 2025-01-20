@@ -12,8 +12,8 @@ class Shield {
         ctx.beginPath()
             ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
         ctx.closePath()
-        ctx.fillStyle = 'yellow'
-        ctx.fill()
+        ctx.strokeStyle= 'yellow'
+        ctx.stroke()
     }
 
     active_draw() {
