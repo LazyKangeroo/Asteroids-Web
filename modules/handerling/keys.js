@@ -25,7 +25,7 @@ window.addEventListener('keydown', (event) => {
             keys.d.pressed = true;
             break
         case 'Space':
-            if (!fast_projectiles.length > 1) {
+            if (!fast_projectiles_pickedup >= 1) {
                 projectiles.push(new Projectiles({
                     pos : {
                         x : player.pos.x + Math.cos(player.rotation) * 30 ,
@@ -35,8 +35,19 @@ window.addEventListener('keydown', (event) => {
                         y : Math.sin(player.rotation) * PROJECTILE_SPEED
                     }
                 }))
-        } else {
-        }
+            }
+            else if (fast_projectiles_pickedup >= 1) {
+                fast_projectiles.push(new FastProjectile({
+                    pos : {
+                        x : player.pos.x + Math.cos(player.rotation) * 30 ,
+                        y: player.pos.y + Math.sin(player.rotation) * 30
+                    }, vel : {
+                        x : Math.cos(player.rotation) * FAST_PROTECTILE_SPEED,
+                        y : Math.sin(player.rotation) * FAST_PROTECTILE_SPEED
+                    }
+                }))
+                fast_projectiles_pickedup -= 1
+            }
             break
     }
 })

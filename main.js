@@ -11,6 +11,8 @@ const player = new Player({
 })
 
 function animate() {
+    console.log(fast_projectiles_pickedup);
+
     const animationId = window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
     ctx.fillRect(0,0,canvas.width,canvas.height)
@@ -18,7 +20,7 @@ function animate() {
     player.update();
 
     // powerup management //
-        // Shield
+    // Shield
     if (shields.length > 0) {
         shields[0].update()
         if (!shields[0].active) {
@@ -27,13 +29,22 @@ function animate() {
             }
         }
     }
-        // Fast projectiles
-    if (fast_projectiles.length > 0) {
-        fast_projectiles[0].update()
-        if (!fast_projectiles[0].active) {
-            if (circleTriangleCollision(fast_projectiles[0], player.getVertices())) {
-                fast_projectiles[0].active = true
-            }
+
+    // Fast projectiles
+    for (let i = fast_projectiles_display.length - 1; i >= 0; i--) {
+        const projectile = fast_projectiles_display[i]
+            projectile.update()
+        if (circleTriangleCollision(projectile, player.getVertices())) {
+            fast_projectiles_display.splice(i,1)
+            fast_projectiles_pickedup += 1
+        }
+    }
+    for (let i = fast_projectiles.length - 1; i >= 0; i--) {
+        const projectile = fast_projectiles[i]
+        projectile.update()
+
+        if (projectile.pos.x + projectile.r < 0 || projectile.pos.x > canvas.width || projectile.pos.y + projectile.r < 0 || projectile.pos.y > canvas.height) {
+            fast_projectiles.splice(i,1)
         }
     }
 
@@ -46,6 +57,7 @@ function animate() {
             projectiles.splice(i,1)
         }
     }
+
     // Ast management
     for (let i = asteroids.length - 1; i >= 0; i--) {
         const asteroid = asteroids[i]
@@ -73,16 +85,19 @@ function animate() {
             }
         }
 
+        // faSt projectiles collition{
+        for (let j = fast_projectiles.length - 1; j >= 0; j--) {
+            const projectile = fast_projectiles[j]
+            if (circleCollition(asteroid, projectile)) {
+                projectileCollition_handle(asteroid,j)
+            }
+        }
         // Collition of ast and projectile
         for (let j = projectiles.length - 1; j >= 0; j--) {
             const projectile = projectiles[j]
             if (circleCollition(asteroid, projectile)) {
-                ast_proj_handling(asteroid,asteroids,projectiles,i,j)
-            }
-        }
-        if (fast_projectiles.length > 0) {
-            if (circleCollition(asteroid, fast_projectiles[0])) {
-                ast_proj_handling(asteroid,asteroids,fast_projectiles,i,0)
+                projectiles.splice(j,1)
+                projectileCollition_handle(asteroid,j)
             }
         }
     }

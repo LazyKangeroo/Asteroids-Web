@@ -55,13 +55,11 @@ function circleCollition(circle1,circle2) {
     return false
 }
 
-function ast_proj_handling(asteroid,asteroid_list,projectile_list, i,j) {
-  projectile_list.splice(j,1)
-
+function projectileCollition_handle(asteroid,num) {
   // Points
   player.score += 10
 
   // Sizing asteroid
-  if (asteroid.r <= 20) asteroid_list.splice(i,1)
+  if (asteroid.r <= 20) asteroids.splice(num,1)
       else if (asteroid.r >= 20) { asteroid.r = asteroid.r / 2 }
 }
