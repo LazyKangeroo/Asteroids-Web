@@ -48,4 +48,4 @@ const intervalId_Bouncy = window.setInterval(() => {
             }
         }
     ))
-}, 6000)
+}, 8000)

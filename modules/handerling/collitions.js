@@ -55,6 +55,17 @@ function circleCollition(circle1,circle2) {
     return false
 }
 
+function circleRectCollition(circle,rect) {
+  if (
+    rect.pos.x + rect.width >= circle.pos.x - circle.r &&
+    rect.pos.x <= circle.pos.x + circle.r &&
+    rect.pos.y + rect.height >= circle.pos.y + circle.r &&
+    rect.pos.y <= circle.pos.y - circle.r
+  ) {
+    circle.vel = rect.vel
+  }
+}
+
 function projectileCollition_handle(asteroid,num) {
   // Points
   player.score += 10

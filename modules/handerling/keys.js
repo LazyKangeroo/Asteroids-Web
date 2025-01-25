@@ -25,7 +25,7 @@ window.addEventListener('keydown', (event) => {
             keys.d.pressed = true;
             break
         case 'Space':
-            if (!bouncy_projectiles_pickedup >= 1) {
+            if (!bouncy_projectiles_pickup >= 1 && !wall_push_pickup >= 1) {
                 projectiles.push(new Projectiles({
                     pos : {
                         x : player.pos.x + Math.cos(player.rotation) * 30 ,
@@ -36,7 +36,7 @@ window.addEventListener('keydown', (event) => {
                     }
                 }))
             }
-            else if (bouncy_projectiles_pickedup >= 1) {
+            else if (bouncy_projectiles_pickup >= 1 && !wall_push_pickup >= 1) {
                 bouncy_projectiles.push(new BouncyProjectile({
                     pos : {
                         x : player.pos.x + Math.cos(player.rotation) * 30 ,
@@ -46,7 +46,19 @@ window.addEventListener('keydown', (event) => {
                         y : Math.sin(player.rotation) * PROJECTILE_SPEED
                     }
                 }))
-                bouncy_projectiles_pickedup -= 1
+                bouncy_projectiles_pickup -= 1
+            } else if (!bouncy_projectiles_pickup >= 1 && wall_push_pickup >= 1) {
+                wall_push.push(new Wall_Push({
+                    pos : {
+                        x : player.pos.x + Math.cos(player.rotation) * 30 ,
+                        y: player.pos.y + Math.sin(player.rotation) * 30
+                    }, vel : {
+                        x : Math.cos(player.rotation) * WALL_SPEED,
+                        y : Math.sin(player.rotation) * WALL_SPEED
+                    },
+                    rotation : player.rotation
+                }))
+                wall_push_pickup -= 1
             }
             break
     }

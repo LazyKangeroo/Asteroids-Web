@@ -10,7 +10,7 @@ class Shield {
 
     init_draw() {
         ctx.beginPath()
-            ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
+        ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
         ctx.closePath()
         ctx.strokeStyle= 'yellow'
         ctx.stroke()
