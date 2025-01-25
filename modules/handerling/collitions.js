@@ -60,6 +60,10 @@ function projectileCollition_handle(asteroid,num) {
   player.score += 10
 
   // Sizing asteroid
-  if (asteroid.r <= 20) asteroids.splice(num,1)
-      else if (asteroid.r >= 20) { asteroid.r = asteroid.r / 2 }
+  if (asteroid.r <= 20)
+  {
+    asteroids.splice(num,1)
+  } else {
+    asteroid.r = asteroid.r / 2
+  }
 }

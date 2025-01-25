@@ -21,7 +21,7 @@ class BouncyProjectile {
     constructor({ pos,vel }) {
         this.pos = pos
         this.vel = vel
-        this.r = 3
+        this.r = 7
     }
 
     draw() {
@@ -48,5 +48,4 @@ const intervalId_Bouncy = window.setInterval(() => {
             }
         }
     ))
-    console.log(bouncy_projectiles_display);
 }, 6000)

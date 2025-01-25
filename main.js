@@ -11,8 +11,6 @@ const player = new Player({
 })
 
 function animate() {
-    console.log(bouncy_projectiles_pickedup);
-
     const animationId = window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
     ctx.fillRect(0,0,canvas.width,canvas.height)
@@ -93,7 +91,8 @@ function animate() {
         for (let j = bouncy_projectiles.length - 1; j >= 0; j--) {
             const projectile = bouncy_projectiles[j]
             if (circleCollition(asteroid, projectile)) {
-                projectileCollition_handle(asteroid,j)
+                bouncy_projectile_directionChange(projectile)
+                projectileCollition_handle(asteroid,i)
             }
         }
         // Collition of ast and projectile
@@ -101,7 +100,7 @@ function animate() {
             const projectile = projectiles[j]
             if (circleCollition(asteroid, projectile)) {
                 projectiles.splice(j,1)
-                projectileCollition_handle(asteroid,j)
+                projectileCollition_handle(asteroid,i)
             }
         }
     }

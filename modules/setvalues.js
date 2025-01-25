@@ -11,6 +11,6 @@ const AST_MIN_SPEED = 1
 
 const shields = []
 
-let  bouncy_projectiles_pickedup = 0
+let bouncy_projectiles_pickedup = 0
 const bouncy_projectiles_display = []
 const bouncy_projectiles= []
