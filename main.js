@@ -11,7 +11,7 @@ const player = new Player({
 })
 
 function animate() {
-    console.log(fast_projectiles_pickedup);
+    console.log(bouncy_projectiles_pickedup);
 
     const animationId = window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
@@ -30,21 +30,21 @@ function animate() {
         }
     }
 
-    // Fast projectiles
-    for (let i = fast_projectiles_display.length - 1; i >= 0; i--) {
-        const projectile = fast_projectiles_display[i]
+    // bouncy projectiles
+    for (let i = bouncy_projectiles_display.length - 1; i >= 0; i--) {
+        const projectile = bouncy_projectiles_display[i]
             projectile.update()
         if (circleTriangleCollision(projectile, player.getVertices())) {
-            fast_projectiles_display.splice(i,1)
-            fast_projectiles_pickedup += 1
+            bouncy_projectiles_display.splice(i,1)
+            bouncy_projectiles_pickedup += 1
         }
     }
-    for (let i = fast_projectiles.length - 1; i >= 0; i--) {
-        const projectile = fast_projectiles[i]
+    for (let i = bouncy_projectiles.length - 1; i >= 0; i--) {
+        const projectile = bouncy_projectiles[i]
         projectile.update()
 
         if (projectile.pos.x + projectile.r < 0 || projectile.pos.x > canvas.width || projectile.pos.y + projectile.r < 0 || projectile.pos.y > canvas.height) {
-            fast_projectiles.splice(i,1)
+            bouncy_projectiles.splice(i,1)
         }
     }
 
@@ -76,18 +76,22 @@ function animate() {
                 shields.splice(0,1)
                 asteroids.splice(i,1)
             } else {
-                console.log('GAME OVER')
-                console.log(`Score ${player.score}`)
+                // Disable spawning
                 window.cancelAnimationFrame(animationId)
                 clearInterval(intervalId_Ast)
                 clearInterval(intervalId_Shield)
+                clearInterval(intervalId_Bouncy)
+
+                // Display Scores
                 window.alert(`GAME OVER \n Score : ${player.score}`)
+                console.log('GAME OVER')
+                console.log(`Score ${player.score}`)
             }
         }
 
-        // faSt projectiles collition{
-        for (let j = fast_projectiles.length - 1; j >= 0; j--) {
-            const projectile = fast_projectiles[j]
+        // bouncy projectiles collition{
+        for (let j = bouncy_projectiles.length - 1; j >= 0; j--) {
+            const projectile = bouncy_projectiles[j]
             if (circleCollition(asteroid, projectile)) {
                 projectileCollition_handle(asteroid,j)
             }

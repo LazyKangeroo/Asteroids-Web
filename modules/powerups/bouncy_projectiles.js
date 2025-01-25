@@ -1,4 +1,4 @@
-class FastProjectileDisplay {
+class BouncyProjectileDisplay {
     constructor({pos}) {
         this.pos = pos
         this.r = 12
@@ -8,7 +8,7 @@ class FastProjectileDisplay {
         ctx.beginPath()
         ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
         ctx.closePath()
-        ctx.strokeStyle = 'blue'
+        ctx.strokeStyle = 'green'
         ctx.stroke()
     }
 
@@ -17,7 +17,7 @@ class FastProjectileDisplay {
     }
 }
 
-class FastProjectile {
+class BouncyProjectile {
     constructor({ pos,vel }) {
         this.pos = pos
         this.vel = vel
@@ -28,7 +28,7 @@ class FastProjectile {
         ctx.beginPath()
         ctx.arc(this.pos.x,this.pos.y,this.r,0,Math.PI * 2, false)
         ctx.closePath()
-        ctx.fillStyle = 'blue'
+        ctx.fillStyle = 'green'
         ctx.fill()
     }
 
@@ -39,14 +39,14 @@ class FastProjectile {
     }
 }
 
-const intervalId_fast = window.setInterval(() => {
-    fast_projectiles_display.push(
-        new FastProjectileDisplay({
+const intervalId_Bouncy = window.setInterval(() => {
+    bouncy_projectiles_display.push(
+        new BouncyProjectileDisplay({
             pos : {
                 x : Math.random() * (canvas.width - 50) + 50,
                 y : Math.random() * (canvas.height - 50) + 50
             }
         }
     ))
-    console.log(fast_projectiles_display);
+    console.log(bouncy_projectiles_display);
 }, 6000)
