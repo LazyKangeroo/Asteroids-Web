@@ -58,7 +58,6 @@ function animate() {
     for (let i = bouncy_projectiles.length - 1; i >= 0; i--) {
         const projectile = bouncy_projectiles[i]
         projectile.update()
-
         if (projectile.pos.x + projectile.r < 0 || projectile.pos.x > canvas.width || projectile.pos.y + projectile.r < 0 || projectile.pos.y > canvas.height) {
             bouncy_projectiles.splice(i,1)
         }
@@ -97,6 +96,7 @@ function animate() {
                 clearInterval(intervalId_Ast)
                 clearInterval(intervalId_Shield)
                 clearInterval(intervalId_Bouncy)
+                clearInterval(intervalId_Wall)
 
                 // Display Scores
                 window.alert(`GAME OVER \n Score : ${player.score}`)
@@ -119,6 +119,14 @@ function animate() {
             if (circleCollition(asteroid, projectile)) {
                 projectiles.splice(j,1)
                 projectileCollition_handle(asteroid,i)
+            }
+        }
+        // Wall ast colltion
+        for (let j = wall_push.length - 1; j >= 0; j--) {
+            const wall = wall_push[j]
+            if (circleRectCollition(asteroid,wall)) {
+                asteroid.vel.y = wall.vel.y
+                asteroid.vel.x = wall.vel.x
             }
         }
     }

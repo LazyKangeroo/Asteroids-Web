@@ -63,4 +63,4 @@ const intervalId_Wall = window.setInterval(() => {
             })
         )
     }
-}, 3000)
+}, 1000)
