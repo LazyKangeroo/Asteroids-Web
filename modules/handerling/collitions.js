@@ -56,11 +56,14 @@ function circleCollition(circle1,circle2) {
 }
 
 function circleRectCollition(circle,rect) {
-  if (
-    rect.pos.x + rect.width >= circle.pos.x - circle.r && rect.pos.x <= circle.pos.x + circle.r && rect.pos.y + rect.height >= circle.pos.y + circle.r
-  ) {
-    return true
-  }
+    if (
+      circle.pos.x - circle.r > rect.pos.x &&
+      circle.pos.x + circle.r < rect.pos.x + rect.width  &&
+      circle.pos.y + circle.r < rect.pos.y + rect.height &&
+      circle.pos.y - circle.r > rect.pos.y
+    ) {
+      return true
+    }
 }
 
 function projectileCollition_handle(asteroid,num) {

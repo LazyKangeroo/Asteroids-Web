@@ -1,7 +1,7 @@
 class Wall_PushDisplay {
     constructor({pos}) {
         this.pos = pos
-        this.r = 15
+        this.r = 18
     }
 
     draw() {
@@ -19,30 +19,30 @@ class Wall_PushDisplay {
 }
 
 class Wall_Push {
-    constructor({pos,vel, rotation}) {
+    constructor({pos,vel}) {
         this.width = 20
-        this.height = 100
+        this.height = 120
 
         this.pos = pos
         this.vel = vel
-        this.rotation = rotation
     }
 
     draw() {
-        ctx.save()
+        if (!this.vel.x == 0) {
+            ctx.beginPath();
+            ctx.rect(this.pos.x,this.pos.y,this.width,this.height)
 
-        ctx.translate(this.pos.x,this.pos.y)
-        ctx.rotate(this.rotation)
-        ctx.translate(-this.pos.x, -this.pos.y)
+            ctx.strokeStyle = "yellow";
+            ctx.stroke();
+            ctx.closePath()
+        } else {
+            ctx.beginPath();
+            ctx.rect(this.pos.x,this.pos.y,this.height,this.width)
 
-        ctx.beginPath();
-        ctx.rect(this.pos.x,this.pos.y,this.width,this.height)
-
-        ctx.strokeStyle = "yellow";
-        ctx.stroke();
-        ctx.closePath()
-
-        ctx.restore()
+            ctx.strokeStyle = "yellow";
+            ctx.stroke();
+            ctx.closePath()
+        }
     }
 
     update() {
@@ -52,15 +52,45 @@ class Wall_Push {
     }
 }
 
+// Wall Powerup stacking
+// Fires every 4th pick up
+function wall_create(num) {
+    let direction = 0
+    switch (num) {
+        case 4:
+            direction = {x : -1, y : 0}
+            break;
+        case 3:
+            direction = {x : 1,y : 0}
+            break;
+        case 2:
+            direction = {x : 0,y : -1}
+            break;
+        case 1:
+            direction = {x : 0,y : 1}
+            break;
+    }
+    wall_push.push(new Wall_Push({
+        pos : {
+            x :  direction.x,
+            y:  direction.y
+        }, vel : {
+            x : direction.x * WALL_SPEED,
+            y : direction.y * WALL_SPEED
+        }
+    }))
+    console.log(wall_push);
+}
+
 const intervalId_Wall = window.setInterval(() => {
-    if (wall_push.length < 1) {
+    if (wall_push_display.length < 1) {
         wall_push_display.push(
             new Wall_PushDisplay({
                 pos : {
-                    x : Math.random() * (canvas.width - 50) + 50,
-                    y : Math.random() * (canvas.height - 50) + 50
+                    x : Math.random() * (canvas.width - 100) + 100,
+                    y : Math.random() * (canvas.height - 100) + 100
                 }
             })
         )
     }
-}, 1000)
+}, 2000)

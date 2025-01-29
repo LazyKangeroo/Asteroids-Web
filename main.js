@@ -32,17 +32,23 @@ function animate() {
     for (let i = wall_push_display.length - 1; i >= 0; i--) {
         const wall = wall_push_display[i]
             wall.update()
-        if (circleTriangleCollision(wall, player.getVertices()) && !bouncy_projectiles_pickup >= 1) {
+        if (circleTriangleCollision(wall, player.getVertices())) {
             wall_push_display.splice(i,1)
             wall_push_pickup += 1
+            console.log(wall_push_pickup);
+            wall_create(wall_push_pickup);
         }
     }
-    for (let i = wall_push.length - 1; i >= 0; i--) {
-        const wall = wall_push[i]
-        wall.update()
+    if (wall_push_pickup >= 4) {
+        for (let i = wall_push.length - 1; i >= 0; i--) {
+            const wall = wall_push[i]
+            wall.update()
+            console.log('update');
 
-        if (wall.pos.x + wall.r < 0 || wall.pos.x > canvas.width || wall.pos.y + wall.r < 0 || wall.pos.y > canvas.height) {
-            wall_push.splice(i,1)
+            if (wall.pos.x + wall.r < 0 || wall.pos.x > canvas.width || wall.pos.y + wall.r < 0 || wall.pos.y > canvas.height) {
+                wall_push.splice(i,1)
+                wall_push_pickup -= 1
+            }
         }
     }
 
@@ -50,7 +56,7 @@ function animate() {
     for (let i = bouncy_projectiles_display.length - 1; i >= 0; i--) {
         const projectile = bouncy_projectiles_display[i]
             projectile.update()
-        if (circleTriangleCollision(projectile, player.getVertices()) && !wall_push_pickup >= 1) {
+        if (circleTriangleCollision(projectile, player.getVertices())) {
             bouncy_projectiles_display.splice(i,1)
             bouncy_projectiles_pickup += 1
         }

@@ -40,6 +40,7 @@ class BouncyProjectile {
 }
 
 const intervalId_Bouncy = window.setInterval(() => {
+    if (bouncy_projectiles_display.length < 8)
     bouncy_projectiles_display.push(
         new BouncyProjectileDisplay({
             pos : {
