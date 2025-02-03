@@ -55,47 +55,6 @@ function circleCollition(circle1, circle2) {
   return false;
 }
 
-function circleRectCollition(circle, rect) {
-  // const rect_center = {
-  //   x: rect.pos.x + rect.width / 2,
-  //   y: rect.pos.y + rect.height / 2,
-  // };
-  // const xDistance = circle.pos.x - rect_center.x;
-  // const yDistance = circle.pos.y - rect_center.y;
-
-  // if (
-  //   xDistance > rect.width / 2 + circle.r &&
-  //   yDistance > rect.height / 2 + circle.r
-  // ) {
-  //   return false;
-  // }
-  // if (xDistance == rect.width / 2 || yDistance == rect.height / 2) {
-  //   return true;
-  // } else if (
-  //   xDistance * xDistance + yDistance * yDistance <=
-  //   circle.r * circle.r
-  // ) {
-  //   return true;
-  // }
-  // Find the closest point on the rectangle to the circle's center
-  const closestX = Math.max(
-    rect.pos.x,
-    Math.min(circle.pos.x, rect.pos.x + rect.width)
-  );
-  const closestY = Math.max(
-    rect.pos.y,
-    Math.min(circle.pos.y, rect.pos.y + rect.height)
-  );
-
-  // Calculate the distance between the circle's center and the closest point on the rectangle
-  const dx = circle.pos.x - closestX;
-  const dy = circle.pos.y - closestY;
-
-  // If the distance is less than or equal to the radius, a collision occurred
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance <= circle.r) return true;
-}
-
 function projectileCollition_handle(asteroid, num) {
   // Points
   player.score += 10;
@@ -106,4 +65,53 @@ function projectileCollition_handle(asteroid, num) {
   } else {
     asteroid.r = asteroid.r / 2;
   }
+}
+
+function rectCircleCollision(circle, rect) {
+  // Rotate circle's center point back
+  var rect_centerX = rect.pos.x + (rect.width / 2);
+  var rect_centerY = rect.pos.y + (rect.height /2);
+
+  var cx =
+    Math.cos(rect.rotation) * (circle.pos.x - rect_centerX) -
+    Math.sin(rect.rotation) * (circle.pos.y - rect_centerY) +
+    rect_centerX;
+  var cy =
+    Math.sin(rect.rotation) * (circle.pos.x - rect_centerX) +
+    Math.cos(rect.rotation) * (circle.pos.y - rect_centerY) +
+    rect_centerY;
+
+  // Closest point
+  var x, y;
+
+  // Find the unrotated closest x point from center of unrotated circle
+  if (cx < rect.pos.x) {
+    x = rect.pos.x;
+  } else if (cx > rect.pos.x + rect.width) {
+    x = rect.pos.x + rect.width;
+  } else {
+    x = cx;
+  }
+
+  // Find the unrotated closest y point from center of unrotated circle
+  if (cy < rect.pos.y) {
+    y = rect.pos.y;
+  } else if (cy > rect.pos.y + rect.height) {
+    y = rect.pos.y + rect.height;
+  } else {
+    y = cy;
+  }
+  // Determine collision
+  var c_radius = 5;
+  var distance = findDistance(cx, cy, x, y);
+
+  if (distance < c_radius) return true; // Collision
+}
+
+function findDistance(x1, y1, x2, y2) {
+  var a = Math.abs(x1 - x2);
+  var b = Math.abs(y1 - y2);
+
+  var c = Math.sqrt(a * a + b * b);
+  return c;
 }

@@ -15,6 +15,7 @@ let bouncy_projectiles_pickup = 0;
 const bouncy_projectiles_display = [];
 const bouncy_projectiles = [];
 
+let wall_push_pickup = 0;
 const WALL_SPEED = 6;
 const wall_push_display = [];
 const wall_push = [];

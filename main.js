@@ -33,9 +33,9 @@ function animate() {
     const wall = wall_push_display[i];
     wall.update();
 
-    if (circleTriangleCollision(wall, player.getVertices())) {
+    if (circleTriangleCollision(wall, player.getVertices()) && !bouncy_projectiles_pickup > 0) {
       wall_push_display.splice(i, 1);
-      wall_create();
+      wall_push_pickup += 1;
     }
   }
   for (let i = wall_push.length - 1; i >= 0; i--) {
@@ -56,7 +56,7 @@ function animate() {
   for (let i = bouncy_projectiles_display.length - 1; i >= 0; i--) {
     const projectile = bouncy_projectiles_display[i];
     projectile.update();
-    if (circleTriangleCollision(projectile, player.getVertices())) {
+    if (circleTriangleCollision(projectile, player.getVertices()) && !wall_push_pickup > 0) {
       bouncy_projectiles_display.splice(i, 1);
       bouncy_projectiles_pickup += 1;
     }
@@ -145,7 +145,7 @@ function animate() {
     // Wall ast colltion
     for (let j = wall_push.length - 1; j >= 0; j--) {
       const wall = wall_push[j];
-      if (circleRectCollition(asteroid, wall)) {
+      if (rectCircleCollision(asteroid, wall)) {
         asteroid.vel.y = wall.vel.y;
         asteroid.vel.x = wall.vel.x;
       }
