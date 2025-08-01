@@ -37,7 +37,7 @@ class Shield {
     draw() {
         // Drawing center of ships pos
         if (this.active) {
-            this.active_draw()
+            this.active_draw() 
         } else if (!this.active) {
             this.init_draw()
         }
