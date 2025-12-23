@@ -24,6 +24,21 @@ window.addEventListener('keydown', (event) => {
         case 'KeyD':
             keys.d.pressed = true;
             break
+    }
+})
+
+window.addEventListener('keyup', (event) => {
+    switch (event.code) {
+        case 'KeyW' :
+            keys.w.pressed = false;
+            break
+        case 'KeyA':
+            keys.a.pressed = false;
+            break
+        case 'KeyD':
+            keys.d.pressed = false;
+            break
+
         case 'Space':
             if (!bouncy_projectiles_pickup >= 1) {
                 projectiles.push(new Projectiles({
@@ -48,20 +63,6 @@ window.addEventListener('keydown', (event) => {
                 }))
                 bouncy_projectiles_pickup -= 1
             }
-            break
-    }
-})
-
-window.addEventListener('keyup', (event) => {
-    switch (event.code) {
-        case 'KeyW' :
-            keys.w.pressed = false;
-            break
-        case 'KeyA':
-            keys.a.pressed = false;
-            break
-        case 'KeyD':
-            keys.d.pressed = false;
             break
     }
 })
